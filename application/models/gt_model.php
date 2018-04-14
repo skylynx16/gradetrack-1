@@ -232,12 +232,13 @@ class gt_model extends CI_Model
 		"INSERT IGNORE INTO tbl".$changedname." (StudNo, StudName)
 		select
 			tblenrollment.StudNo,
-			concat(tblstudentpersonaldata.FName,' ',tblstudentpersonaldata.MName,' ', tblstudentpersonaldata.LName) As StudName
+			concat(tblstudentpersonaldata.LName,', ', tblstudentpersonaldata.FName,' ',tblstudentpersonaldata.MName ) As StudName
 		from tblenrollment
 		left join tblsubject on tblenrollment.ESubjCode = tblsubject.SubjCode
 		left join tblschedule on tblenrollment.ESubjCode = tblschedule.SubjCode
 		left join tblstudentpersonaldata on tblenrollment.StudNo = tblstudentpersonaldata.StudNo
-		where tblenrollment.ESubjCode = '".$SubjCode."';
+		where tblenrollment.ESubjCode = '".$SubjCode."'
+		order by StudName;
 		");
 
 		return "tbl".$changedname;

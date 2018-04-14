@@ -1073,7 +1073,7 @@ class main extends MY_Controller {
 				$tables = array($tblname),
 				$fieldName = null,
 				$where = null, 
-				$join = null, $joinType = null, $sortBy = null, $sortOrder = null, $limit = null, $fieldNameLike = null, $like = null, $whereSpecial = null, $groupBy = null );
+				$join = null, $joinType = null, $sortBy =  array('StudName'), $sortOrder = null, $limit = null, $fieldNameLike = null, $like = null, $whereSpecial = null, $groupBy = null );
 
 			$data['rec_from_db'] = $getData;
 			
@@ -1153,4 +1153,229 @@ class main extends MY_Controller {
 			echo 0;
 	}
 	/************************************END MIDTERM GRADE CONFIRMATION ******************************************** */
+
+	/************************************IMPORT ******************************************** */	
+	public function import()
+	{
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
+
+		$kindofimport = $this->uri->segment(3);
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(4)));
+
+		/*if($kindofimport == 1)//Import Gradesheet for Midterm Grades
+		{
+
+		}
+		if($kindofimport == 2)//Import Gradesheet for Pre-Final Grades
+		{
+			
+		}
+		if($kindofimport == 3)//Import Gradesheet for Final Grades
+		{
+			
+		}
+		if($kindofimport == 4)//Import Whole Gradesheet
+		{
+			
+		}*/
+
+		/*if(isset($_FILES["file"]["name"]))
+	  	{
+	   		$path = $_FILES["file"]["tmp_name"];
+	   		$object = PHPExcel_IOFactory::load($path);
+	   		foreach($object->getWorksheetIterator() as $worksheet)
+	   		{
+	    		$highestRow = $worksheet->getHighestRow();
+	    		$highestColumn = $worksheet->getHighestColumn();
+	    		for($row=2; $row<=$highestRow; $row++)
+	    		{
+	     			$StudNo = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+	     			$StudName = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+	     			$PercMidtermGrade = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+	     			$PercPreFinalGrade = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+	     			$PercFinalGrade = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+	     			$data[] = array(
+	      				'CustomerName'  => $customer_name,
+	      				'Address'   => $address,
+	      				'City'    => $city,
+	      				'PostalCode'  => $postal_code,
+	      				'Country'   => $country
+	     			);
+	    		}
+	   		}
+	   		$this->_updateRecords($tableName = $tblName, $fieldName = array('StudNo'), $where = array($data=>StudNo), $data);
+	   		echo 'Data Imported successfully';
+	   		//if statements
+	   		//what if ndi pareho ng column names, stop update
+	   		//what if ndi pareho ng row number, stop update
+	  	}*/
+	}
+	/************************************END IMPORT ******************************************** */
+
+	/************************************EXPORT ******************************************** */	
+	public function export()
+	{
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
+
+		$object = new PHPExcel();
+
+		$kindofexport = $this->uri->segment(3);
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(4)));
+
+		$datatoexport = $this->_getRecordsData($data = array('*'), $tables = array($tblname), $fieldName = null, $where = null, $join = null, $joinType = null, $sortBy = array('StudName'), $sortOrder = null, $limit = null, $fieldNameLike = null, $like = null, $whereSpecial = null, $groupBy = null );
+
+		if($kindofexport == 1)//Download Template for Midterm Grades
+		{
+			$object->setActiveSheetIndex(0);
+
+		  	$table_columns = array("Student No.", "Student Name", "Percentage Midterm Grade");
+
+		  	$column = 0;
+
+		  	foreach($table_columns as $field)
+		  	{
+		   		$object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+		   		$column++;
+		  	}
+
+		  	$excel_row = 2;
+
+		  	foreach($datatoexport as $row)
+		  	{
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->PercMidtermGrade);
+			   $excel_row++;
+		  	}
+
+		  	$filename = "Midterm_Grades_Template.xlsx";
+			
+			$object->getActiveSheet()->setTitle("Midterm_Grades");
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+
+			ob_clean();
+			$writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
+			$writer->save('php://output');
+			exit;
+		}
+		if($kindofexport == 2)//Download Template for Pre-Final Grades
+		{
+			$object->setActiveSheetIndex(0);
+
+		  	$table_columns = array("Student No.", "Student Name", "Percentage Pre-final Grade");
+
+		  	$column = 0;
+
+		  	foreach($table_columns as $field)
+		  	{
+		   		$object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+		   		$column++;
+		  	}
+
+		  	$excel_row = 2;
+
+		  	foreach($datatoexport as $row)
+		  	{
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->PercPreFinalGrade);
+			   $excel_row++;
+		  	}
+
+		  	$filename = "Pre-final_Grades_Template.xlsx";
+			
+			$object->getActiveSheet()->setTitle("Pre-final_Grades");
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+
+			ob_clean();
+			$writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
+			$writer->save('php://output');
+			exit;
+		}
+		if($kindofexport == 3)//Download Template for Final Grades
+		{
+			$object->setActiveSheetIndex(0);
+
+		  	$table_columns = array("Student No.", "Student Name", "Percentage Final Grade");
+
+		  	$column = 0;
+
+		  	foreach($table_columns as $field)
+		  	{
+		   		$object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+		   		$column++;
+		  	}
+
+		  	$excel_row = 2;
+
+		  	foreach($datatoexport as $row)
+		  	{
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->PercFinalGrade);
+			   $excel_row++;
+		  	}
+
+		  	$filename = "Final_Grades_Template.xlsx";
+			
+			$object->getActiveSheet()->setTitle("Final_Grades");
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+
+			ob_clean();
+			$writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
+			$writer->save('php://output');
+			exit;
+		}
+		if($kindofexport == 4)//Download Whole Template
+		{
+	  		$object->setActiveSheetIndex(0);
+
+		  	$table_columns = array("Student No.", "Student Name", "Percentage Midterm Grade", "Percentage Pre-Final Grade", "Percentage Final Grade");
+
+		  	$column = 0;
+
+		  	foreach($table_columns as $field)
+		  	{
+		   		$object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+		   		$column++;
+		  	}
+
+		  	$excel_row = 2;
+
+		  	foreach($datatoexport as $row)
+		  	{
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->PercMidtermGrade);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->PercPreFinalGrade);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->PercFinalGrade);
+			   $excel_row++;
+		  	}
+
+		  	$filename = "All_Grades_Template.xlsx";
+			
+			$object->getActiveSheet()->setTitle("All_Student_Grades");
+
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+
+			ob_clean();
+			$writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
+			$writer->save('php://output');
+			exit;
+		}
+	}
+	/************************************END EXPORT ******************************************** */
 }

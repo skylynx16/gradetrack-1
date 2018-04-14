@@ -7,7 +7,7 @@
 			<td id="user_tbl_data">Percentage Midterm Grade</td>
 			<td id="user_tbl_data">Decimal Midterm Grade</td>
 			<td id="user_tbl_data">Confirm Midterm Grade</td>
-			<td id="user_tbl_data">Percentage Pre-Final Grade</td>
+			<td id="user_tbl_data">Percentage Pre-final Grade</td>
 			<td id="user_tbl_data">Decimal Pre-Final Grade</td>
 			<td id="user_tbl_data">Percentage Final Grade</td>
 			<td id="user_tbl_data">Decimal Final Grade</td>
