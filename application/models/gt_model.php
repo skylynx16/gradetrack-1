@@ -208,7 +208,6 @@ class gt_model extends CI_Model
 	}
     //GET SUBJECTS ENROLLED
     //------------------------------------------------------------------------
-
 	//CREATE TABLE
 	function createtable($SubjCode)
 	{
@@ -237,12 +236,19 @@ class gt_model extends CI_Model
 		left join tblsubject on tblenrollment.ESubjCode = tblsubject.SubjCode
 		left join tblschedule on tblenrollment.ESubjCode = tblschedule.SubjCode
 		left join tblstudentpersonaldata on tblenrollment.StudNo = tblstudentpersonaldata.StudNo
-		where tblenrollment.ESubjCode = '".$SubjCode."'
-		order by StudName;
+		where tblenrollment.ESubjCode = '".$SubjCode."';
 		");
 
 		return "tbl".$changedname;
 	}
     //CREATE TABLE
+    //------------------------------------------------------------------------
+	//------------------------------------------------------------------------
+	//UPDATE TABLE FOR IMPORTING BY BATCH
+	public function customUpdateTable($tblname, $data)
+	{
+		$this->db->update_batch($tblname, $data, 'StudNo');
+	}
+	//UPDATE TABLE FOR IMPORTING BY BATCH
     //------------------------------------------------------------------------
 }

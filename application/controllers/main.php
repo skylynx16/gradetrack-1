@@ -967,7 +967,7 @@ class main extends MY_Controller {
 				
 					if($decryptedPassword === $clean['password']) {
 						foreach($getPassword[0] as $key=>$val){
-								$this->session->set_userdata($key, $val);
+							$this->session->set_userdata($key, $val);
 						}
 
 						$tblusersUpdate = array(
@@ -1155,32 +1155,110 @@ class main extends MY_Controller {
 	/************************************END MIDTERM GRADE CONFIRMATION ******************************************** */
 
 	/************************************IMPORT ******************************************** */	
-	public function import()
+	public function import1()//Import Midterm Grades
 	{
 		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
 		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
 
-		$kindofimport = $this->uri->segment(3);
-		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(4)));
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(3)));
 
-		/*if($kindofimport == 1)//Import Gradesheet for Midterm Grades
-		{
+		if(isset($_FILES["file"]["name"]))
+	  	{
+	   		$path = $_FILES["file"]["tmp_name"];
+	   		$object = PHPExcel_IOFactory::load($path);
+	   		foreach($object->getWorksheetIterator() as $worksheet)
+	   		{
+	    		$highestRow = $worksheet->getHighestRow();
+	    		$highestColumn = $worksheet->getHighestColumn();
+	    		for($row=2; $row<=$highestRow; $row++)
+	    		{
+	     			$StudNo = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+	     			$StudName = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+	     			$PercMidtermGrade = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+	     			$data[] = array(
+	      				'StudNo'  => $StudNo,
+	      				'StudName'   => $StudName,
+	      				'PercMidtermGrade'    => $PercMidtermGrade
+	     			);
+	    		}
+	   		}
+	   		$this->gt_model->customUpdateTable($tblname, $data);
+	   		echo 'Data Imported Successfully!';
+	  	}
+	}
 
-		}
-		if($kindofimport == 2)//Import Gradesheet for Pre-Final Grades
-		{
-			
-		}
-		if($kindofimport == 3)//Import Gradesheet for Final Grades
-		{
-			
-		}
-		if($kindofimport == 4)//Import Whole Gradesheet
-		{
-			
-		}*/
+	public function import2()//Import Pre-Final Grades
+	{
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
 
-		/*if(isset($_FILES["file"]["name"]))
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(3)));
+
+		if(isset($_FILES["file"]["name"]))
+	  	{
+	   		$path = $_FILES["file"]["tmp_name"];
+	   		$object = PHPExcel_IOFactory::load($path);
+	   		foreach($object->getWorksheetIterator() as $worksheet)
+	   		{
+	    		$highestRow = $worksheet->getHighestRow();
+	    		$highestColumn = $worksheet->getHighestColumn();
+	    		for($row=2; $row<=$highestRow; $row++)
+	    		{
+	     			$StudNo = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+	     			$StudName = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+	     			$PercPreFinalGrade = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+	     			$data[] = array(
+	      				'StudNo'  => $StudNo,
+	      				'StudName'   => $StudName,
+	      				'PercPreFinalGrade'  => $PercPreFinalGrade
+	     			);
+	    		}
+	   		}
+	   		$this->gt_model->customUpdateTable($tblname, $data);
+	   		echo 'Data Imported Successfully!';
+	  	}
+	}
+
+	public function import3()//Import Final Grades
+	{
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
+
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(3)));
+
+		if(isset($_FILES["file"]["name"]))
+	  	{
+	   		$path = $_FILES["file"]["tmp_name"];
+	   		$object = PHPExcel_IOFactory::load($path);
+	   		foreach($object->getWorksheetIterator() as $worksheet)
+	   		{
+	    		$highestRow = $worksheet->getHighestRow();
+	    		$highestColumn = $worksheet->getHighestColumn();
+	    		for($row=2; $row<=$highestRow; $row++)
+	    		{
+	     			$StudNo = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+	     			$StudName = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+	     			$PercFinalGrade = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+	     			$data[] = array(
+	      				'StudNo'  => $StudNo,
+	      				'StudName'   => $StudName,
+	      				'PercFinalGrade'   => $PercFinalGrade
+	     			);
+	    		}
+	   		}
+	   		$this->gt_model->customUpdateTable($tblname, $data);
+	   		echo 'Data Imported Successfully!';
+	  	}
+	}
+
+	public function import4()//Import Whole Template
+	{
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
+		require(APPPATH.'third_party/PHPExcel-1.8/Classes/PHPExcel/Writer/Excel2007.php');
+
+		$tblname = 'tbl'.str_replace(".","",str_replace("_","",$this->uri->segment(3)));
+
+		if(isset($_FILES["file"]["name"]))
 	  	{
 	   		$path = $_FILES["file"]["tmp_name"];
 	   		$object = PHPExcel_IOFactory::load($path);
@@ -1196,20 +1274,17 @@ class main extends MY_Controller {
 	     			$PercPreFinalGrade = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
 	     			$PercFinalGrade = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
 	     			$data[] = array(
-	      				'CustomerName'  => $customer_name,
-	      				'Address'   => $address,
-	      				'City'    => $city,
-	      				'PostalCode'  => $postal_code,
-	      				'Country'   => $country
+	      				'StudNo'  => $StudNo,
+	      				'StudName'   => $StudName,
+	      				'PercMidtermGrade'    => $PercMidtermGrade,
+	      				'PercPreFinalGrade'  => $PercPreFinalGrade,
+	      				'PercFinalGrade'   => $PercFinalGrade
 	     			);
 	    		}
 	   		}
-	   		$this->_updateRecords($tableName = $tblName, $fieldName = array('StudNo'), $where = array($data=>StudNo), $data);
-	   		echo 'Data Imported successfully';
-	   		//if statements
-	   		//what if ndi pareho ng column names, stop update
-	   		//what if ndi pareho ng row number, stop update
-	  	}*/
+	   		$this->gt_model->customUpdateTable($tblname, $data);
+	   		echo 'Data Imported Successfully!';
+	  	}
 	}
 	/************************************END IMPORT ******************************************** */
 
@@ -1229,6 +1304,12 @@ class main extends MY_Controller {
 		if($kindofexport == 1)//Download Template for Midterm Grades
 		{
 			$object->setActiveSheetIndex(0);
+			$object->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+	  		$object->getActiveSheet()->getProtection()->setPassword('gradetrack');
+			$object->getActiveSheet()->getProtection()->setSheet(true);
+			$object->getActiveSheet()->getStyle('C2:C100')->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
 
 		  	$table_columns = array("Student No.", "Student Name", "Percentage Midterm Grade");
 
@@ -1250,7 +1331,7 @@ class main extends MY_Controller {
 			   $excel_row++;
 		  	}
 
-		  	$filename = "Midterm_Grades_Template.xlsx";
+		  	$filename = "Midterm_Grades_Template_".$this->uri->segment(4).".xlsx";
 			
 			$object->getActiveSheet()->setTitle("Midterm_Grades");
 
@@ -1266,6 +1347,12 @@ class main extends MY_Controller {
 		if($kindofexport == 2)//Download Template for Pre-Final Grades
 		{
 			$object->setActiveSheetIndex(0);
+			$object->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+	  		$object->getActiveSheet()->getProtection()->setPassword('gradetrack');
+			$object->getActiveSheet()->getProtection()->setSheet(true);
+			$object->getActiveSheet()->getStyle('C2:C100')->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
 
 		  	$table_columns = array("Student No.", "Student Name", "Percentage Pre-final Grade");
 
@@ -1283,11 +1370,11 @@ class main extends MY_Controller {
 		  	{
 			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
 			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
-			   $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->PercPreFinalGrade);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->PercPreFinalGrade);
 			   $excel_row++;
 		  	}
 
-		  	$filename = "Pre-final_Grades_Template.xlsx";
+		  	$filename = "Pre-final_Grades_Template_".$this->uri->segment(4).".xlsx";
 			
 			$object->getActiveSheet()->setTitle("Pre-final_Grades");
 
@@ -1303,6 +1390,12 @@ class main extends MY_Controller {
 		if($kindofexport == 3)//Download Template for Final Grades
 		{
 			$object->setActiveSheetIndex(0);
+			$object->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+	  		$object->getActiveSheet()->getProtection()->setPassword('gradetrack');
+			$object->getActiveSheet()->getProtection()->setSheet(true);
+			$object->getActiveSheet()->getStyle('C2:C100')->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
 
 		  	$table_columns = array("Student No.", "Student Name", "Percentage Final Grade");
 
@@ -1320,11 +1413,11 @@ class main extends MY_Controller {
 		  	{
 			   $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->StudNo);
 			   $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->StudName);
-			   $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->PercFinalGrade);
+			   $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->PercFinalGrade);
 			   $excel_row++;
 		  	}
 
-		  	$filename = "Final_Grades_Template.xlsx";
+		  	$filename = "Final_Grades_Template_".$this->uri->segment(4).".xlsx";
 			
 			$object->getActiveSheet()->setTitle("Final_Grades");
 
@@ -1340,6 +1433,14 @@ class main extends MY_Controller {
 		if($kindofexport == 4)//Download Whole Template
 		{
 	  		$object->setActiveSheetIndex(0);
+	  		$object->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+	  		$object->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+	  		$object->getActiveSheet()->getProtection()->setPassword('gradetrack');
+			$object->getActiveSheet()->getProtection()->setSheet(true);
+			$object->getActiveSheet()->getStyle('C2:E100')->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
 
 		  	$table_columns = array("Student No.", "Student Name", "Percentage Midterm Grade", "Percentage Pre-Final Grade", "Percentage Final Grade");
 
@@ -1363,7 +1464,7 @@ class main extends MY_Controller {
 			   $excel_row++;
 		  	}
 
-		  	$filename = "All_Grades_Template.xlsx";
+		  	$filename = "All_Grades_Template_".$this->uri->segment(4).".xlsx";
 			
 			$object->getActiveSheet()->setTitle("All_Student_Grades");
 

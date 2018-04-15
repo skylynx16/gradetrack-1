@@ -465,6 +465,17 @@ a:hover {
 	color: white;
 	text-decoration: none;
 }
+.btnGoBack2 {
+	border-radius: 50px;
+	padding: 10px 20px;
+	color: white;
+	background-color: #189e0c;
+	margin-top: 50px;
+}
+.btnGoBack2:hover{
+	color: white;
+	text-decoration: none;
+}
 .btnImpExp:hover{
 	color: white;
 	text-decoration: none;
