@@ -1,6 +1,10 @@
-<div class="container-fluid">
+<div class="container">
 	<div class="col-md-12 lg-12 xs-12 sm-12">
-		<table class="table table-bordered" id="user_tbl">
+		<p style="font-family: 'Century Gothic'; font-size: 2rem; vertical-align: middle;" class="animated bounceInLeft">
+			Grades for the Subject: <?php echo $this->uri->segment(3); ?>
+			</p>
+			<br>
+		<table class="table table-bordered animated flipInX" id="user_tbl">
 		<tr id="user_tbl_head">
 			<td id="user_tbl_data">Student No.</td>
 			<td id="user_tbl_data">Student Name</td>
@@ -18,7 +22,8 @@
 			<td id="user_tbl_data"><?php echo $row->StudName; ?></td>
 			<td id="user_tbl_data"><?php echo $row->PercMidtermGrade; ?></td>
 			<td id="user_tbl_data"><?php echo $row->DecMidtermGrade; ?></td>
-			<td id="update_btn"><?php if($row->MidtermGradeConfirmed == 0) { $StudNo = $row->StudNo; $tblName = str_replace(".","",str_replace("_","",$this->uri->segment(3))); echo "<input type=\"button\" onclick=\"disablewhenclicked('".$StudNo."', '".$tblName."')\" id=\"btnConfirm\" value='Confirm'></input>"; } else { echo 'Confirmed'; } ?></td>
+			<td id="update_btn"><?php if($row->MidtermGradeConfirmed == 0) { $StudNo = $row->StudNo; $tblName = str_replace(".","",str_replace("_","",$this->uri->segment(3))); 
+				echo "<center><input type=\"button\" onclick=\"disablewhenclicked('".$StudNo."', '".$tblName."')\" id=\"btnConfirm\" value='Confirm'></input></center>"; } else { echo 'Confirmed'; } ?></td>
 			<td id="user_tbl_data"><?php echo $row->PercPreFinalGrade; ?></td>
 			<td id="user_tbl_data"><?php echo $row->DecPreFinalGrade; ?></td>
 			<td id="user_tbl_data"><?php echo $row->PercFinalGrade; ?></td>
@@ -31,7 +36,7 @@
 
 <div class="row">
 		<div class="col-md-2"></div>
-		<div class="col-md-8">
+		<div class="col-md-8 animated fadeIn">
 			<center>
 			<?php echo '<a class="btnGoBack hvr-backward" href="'.base_url().'main/student_page.html">
 						<i class="fas fa-arrow-circle-left" style="margin-right: 5px;"></i>Go Back</a>'; ?>
@@ -43,7 +48,9 @@
 		</div>
 		<div class="col-md-2"></div>
 </div>
+<a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>resources/js/jquery-3.3.1.min.js"></script>
 
 <script>
@@ -65,4 +72,19 @@
         error:function (){}
     	});
  	}
+
+	 //Back to top script
+	$(document).ready(function(){
+    $(window).scroll(function(){
+        if($(this).scrollTop() > 100){
+            $('#scroll').fadeIn();
+        }else{
+            $('#scroll').fadeOut();
+        }
+    });
+    $('#scroll').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+});
 </script>

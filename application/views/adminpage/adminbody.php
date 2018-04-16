@@ -37,7 +37,7 @@
 <center>
             <div class="col-md-12 sm-12 lg-12">  
                
-                    <a class="btnBackup hvr-grow" href="main/login"><i class="fas fa-database" style="margin-right: 5px;"></i>Backup Database</a>
+                    <a href="admin/database_backup" class="btnBackup hvr-grow"><i class="fas fa-database" style="margin-right: 5px;"></i>Backup Database</a>
                 
                 </div>
             

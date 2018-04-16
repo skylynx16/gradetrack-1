@@ -1,8 +1,21 @@
 <div class="container">
 	<div class="row">
+		<div class="col-md-6">
+			<p style="font-family: 'Century Gothic'; font-size: 2rem; vertical-align: middle;" class="animated bounceInLeft">
+				Grades for the Subject: <?php echo $this->uri->segment(3); ?>
+			</p>
+		</div>
+		<div class="col-md-6">
+			<p style="text-align:center; vertical-align:middle;" class="animated bounceInRight">
+			<?php echo '<a class="btnGoBack2 hvr-backward" href="'.base_url().'main/professor_page.html">
+						<i class="fas fa-arrow-circle-left" style="margin-right: 5px;"></i>Go Back</a>'; ?>
+		</div>
+	</div>
+<br>
+<center>
+	<div class="row">
 		<div class="col-md-12 lg-12 xs-12 sm-12">
-			<h1>Grades for the Subject: <?php echo $this->uri->segment(3); ?></h1>
-			<table class="table table-bordered" id="user_tbl">
+			<table class="table table-bordered animated flipInX" id="user_tbl">
 					<tr id="user_tbl_head">
 						<td id="user_tbl_data">Student No.</td>
 						<td id="user_tbl_data">Student Name</td>
@@ -32,71 +45,98 @@
 		</div>
 	</div>
 
+	<br>
+<!-- *********************************************** IMPORT MIDTERM *********************************************************** -->
+<div class="animated fadeIn">		
 	<div class="row">
-		<div class="col-md-2">
-			<center>
-			<?php echo '<a class="btnGoBack2 hvr-backward" href="'.base_url().'main/professor_page.html">
-						<i class="fas fa-arrow-circle-left" style="margin-right: 5px;"></i>Go Back</a>'; ?>
-			<!-- ------------------------------------------- N O T E --------------------------------------------------
-				NADINE, binago ko muna yung class name ng btnGoBack to btnGoBack2
-				kasi may margin na nagpapaliit sa kanya e. Yung bagong style katabi lang nung
-				.btnGoBack sa gt_styles. tinaggal ko lang yung margin-right: 10rem;
-			----------------------------------------------------------------------------------------------- -->
-			</center>
-		</div>
-<!-- *********************************************** IMPORT *********************************************************** -->
 		<div class="col-md-6">
-			<center>
 			<form method="post" id="import_form1" enctype="multipart/form-data">
-			   <p><label>Import Gradesheet for Midterm Grades</label><br>
-			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+			   <h5>Import Gradesheet for Midterm Grades</h5><br>
+			   <p style="text-align:center; vertical-align:middle;">
+			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" />
 			   <input type="submit" name="import" value="Import" class="btn btn-info" />
+			   </p>
 			</form>
-			<hr>
-			<form method="post" id="import_form2" enctype="multipart/form-data">
-			   <p><label>Import Gradesheet for Pre-final Grades</label><br>
-			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-			   <input type="submit" name="import" value="Import" class="btn btn-info" />
-			</form>
-			<hr>
-			<form method="post" id="import_form3" enctype="multipart/form-data">
-			   <p><label>Import Gradesheet for Final Grades</label><br>
-			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-			   <input type="submit" name="import" value="Import" class="btn btn-info" />
-			</form>
-			<hr>
-			<form method="post" id="import_form4" enctype="multipart/form-data">
-			   <p><label>Import Whole Gradesheet</label><br>
-			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-			   <input type="submit" name="import" value="Import" class="btn btn-info" />
-			</form>
-			<!--
-			<?php //echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/import/1"><i class="fas fa-upload" style="margin-right: 5px;"></i></i>Import Gradesheet for Midterm Grades</a>'; ?>
-			<?php //echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/import/2"><i class="fas fa-upload" style="margin-right: 5px;"></i></i>Import Gradesheet for Pre-final Grades</a>'; ?>
-			<?php //echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/import/3">i class="fas fa-upload" style="margin-right: 5px;"></i></i>Import Gradesheet for Final Grades</a>'; ?>
-			<?php //echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/import/4"><i class="fas fa-upload" style="margin-right: 5px;"></i></i>Import Whole Gradesheet</a>'; ?>
-			-->
-			</center>
 		</div>
-<!-- *********************************************** END IMPORT *********************************************** -->
-
-<!-- *********************************************** EXPORT *********************************************** -->
-		<div class="col-md-4">
-			<center>
-			<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/1/'.$this->uri->segment(3).'">
+		<div class="col-md-6">
+			<p style="text-align:center; vertical-align:middle;">
+				<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/1/'.$this->uri->segment(3).'">
 						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Template for Midterm Grades</a>'; ?>
-			<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/2/'.$this->uri->segment(3).'">
-						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Template for Pre-final Grades</a>'; ?>
-			<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/3/'.$this->uri->segment(3).'">
-						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Template for Final Grades</a>'; ?>
-			<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/4/'.$this->uri->segment(3).'">
-						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Whole Template</a>'; ?>
-			</center>
+			</p>
 		</div>
-<!-- *********************************************** END EXPORT *********************************************** -->
+	</div>
+	<hr>
+<!-- *************************************************** END MIDTERM *********************************************************** -->
+
+<!-- *********************************************** IMPORT PRE-FINAL *********************************************************** -->
+	<div class="row">
+		<div class="col-md-6">
+			<form method="post" id="import_form2" enctype="multipart/form-data">
+				<h5>Import Gradesheet for Pre-final Grades</h5><br>
+				<p style="text-align:center; vertical-align:middle;">
+				<input type="file" name="file" id="file" required accept=".xls, .xlsx" />
+				<input type="submit" name="import" value="Import" class="btn btn-info" />
+			   </p>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<p style="text-align:center; vertical-align:middle;">
+				<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/2/'.$this->uri->segment(3).'">
+						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Template for Pre-final Grades</a>'; ?>
+			</p>
+		</div>
+	</div>
+	<hr>
+<!-- ************************************************ END PRE-FINAL *********************************************************** -->
+
+<!-- *********************************************** IMPORT FINAL *********************************************************** -->
+	<div class="row">
+		<div class="col-md-6">
+			<form method="post" id="import_form3" enctype="multipart/form-data">
+			   <h5>Import Gradesheet for Final Grades</h5><br>
+			   <p style="text-align:center; vertical-align:middle;">
+			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" />
+			   <input type="submit" name="import" value="Import" class="btn btn-info" />
+			   </p>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<p style="text-align:center; vertical-align:middle;">
+				<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/3/'.$this->uri->segment(3).'">
+						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Template for Final Grades</a>'; ?>
+			</p>
+		</div>
+	</div>
+	<hr>
+<!-- *********************************************** END FINAL*********************************************************** -->
+
+<!-- *********************************************** IMPORT WHOLE *********************************************************** -->
+	<div class="row">
+		<div class="col-md-6">
+			<form method="post" id="import_form4" enctype="multipart/form-data">
+			   <h5>Import Whole Gradesheet</h5><br>
+			   <p style="text-align:center; vertical-align:middle;">
+			   <input type="file" name="file" id="file" required accept=".xls, .xlsx" />
+			   <input type="submit" name="import" value="Import" class="btn btn-info" />
+			   </p>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<p style="text-align:center; vertical-align:middle;">
+				<?php echo '<a class="btnImpExp hvr-grow-shadow" href="'.base_url().'main/export/4/'.$this->uri->segment(3).'">
+						<i class="fas fa-download" style="margin-right: 5px;"></i>Download Whole Template</a>'; ?>
+			</p>
+		</div>
+	</div>
+<!-- *********************************************** END WHOLE *********************************************** -->
+</div>
+</center>
+<a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>resources/js/jquery-3.3.1.min.js"></script>
+
 
 <script>
 	$('#import_form1').on('submit', function(event){
@@ -166,4 +206,19 @@
 	   		}
 	  	})
 	});
+
+	//Back to top script
+	$(document).ready(function(){
+    $(window).scroll(function(){
+        if($(this).scrollTop() > 100){
+            $('#scroll').fadeIn();
+        }else{
+            $('#scroll').fadeOut();
+        }
+    });
+    $('#scroll').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+});
 </script>
