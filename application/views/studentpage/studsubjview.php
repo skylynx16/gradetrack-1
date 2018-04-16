@@ -1,7 +1,8 @@
 <div class="container">
 	<div class="col-md-12 lg-12 xs-12 sm-12">
 		<p style="font-family: 'Century Gothic'; font-size: 2rem; vertical-align: middle;" class="animated bounceInLeft">
-			Grades for the Subject: <?php echo $this->uri->segment(3); ?>
+			Grades for the Subject: <?php echo $this->uri->segment(3); ?><br>
+			<h6 class="animated bounceInLeft">Please click "Confirm" once you see your grades</h6>
 			</p>
 			<br>
 		<table class="table table-bordered animated flipInX" id="user_tbl">
